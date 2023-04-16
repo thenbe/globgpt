@@ -1,0 +1,39 @@
+{
+	"name": "globgpt",
+	"version": "0.0.1",
+	"bin": {
+		"globgpt": "dist/cli.cjs"
+	},
+	"type": "module",
+	"main": "src/index",
+	"types": "src/index",
+	"scripts": {
+		"build": "rm -rf dist && tsup --config tsup.config.ts",
+		"check": "tsc --noEmit",
+		"lint": "eslint . --ext .ts --config .eslintrc"
+	},
+	"devDependencies": {
+		"@antfu/eslint-config": "0.38.4",
+		"@types/node": "18.15.11",
+		"cac": "6.7.14",
+		"dotenv": "16.0.3",
+		"eslint": "^8.38.0",
+		"tsconfig": "workspace:*",
+		"tsup": "6.7.0",
+		"typescript": "5.0.4"
+	},
+	"dependencies": {
+		"hnswlib-node": "1.4.2",
+		"langchain": "0.0.56",
+		"openai": "^3.2.0"
+	},
+	"description": "Chat with an LLM over some files",
+  "homepage": "https://github.com/thenbe/globgpt",
+  "bugs": {
+    "url": "https://github.com/thenbe/globgpt/issues"
+  },
+	"author": "",
+	"license": "MIT",
+	"keywords": [],
+	"private": false
+}

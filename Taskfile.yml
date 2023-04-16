@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+---
+version: '3'
+
+tasks:
+  check:
+    dir: '{{.USER_WORKING_DIR}}'
+    sources:
+      - packages/*/src/**/*.ts
+      - packages/*/**/*.spec.ts
+      - packages/*/**/package.json
+      - packages/*/**/tsconfig.json
+      - packages/*/**/.eslintrc.js
+      - packages/*/**/tsup.config.ts
+      - packages/*/**/base.json
+    cmds:
+      - pnpm run check
+
+  lint:
+    dir: '{{.USER_WORKING_DIR}}'
+    sources:
+      - packages/*/src/**/*.ts
+      - packages/*/**/*.spec.ts
+      - packages/*/**/package.json
+      - packages/*/**/tsconfig.json
+      - packages/*/**/.eslintrc.js
+      - packages/*/**/tsup.config.ts
+      - packages/*/**/base.json
+    cmds:
+      - pnpm run lint
+
+  build:
+    dir: '{{.USER_WORKING_DIR}}'
+    sources:
+      - packages/*/src/**/*.ts
+      - packages/*/**/*.spec.ts
+      - packages/*/**/package.json
+      - packages/*/**/tsconfig.json
+      - packages/*/**/.eslintrc.js
+      - packages/*/**/tsup.config.ts
+      - packages/*/**/base.json
+    cmds:
+      - pnpm run build

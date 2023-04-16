@@ -1,0 +1,12 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Default",
+	"extends": [
+		"@tsconfig/strictest/tsconfig",
+		"@tsconfig/node18/tsconfig",
+		"@tsconfig/esm/tsconfig" // order matters
+	],
+	"compilerOptions": {
+		"noPropertyAccessFromIndexSignature": false
+	}
+}
