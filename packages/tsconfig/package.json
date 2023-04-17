@@ -1,5 +1,6 @@
 {
   "name": "tsconfig",
+	"version": "0.0.1",
   "devDependencies": {
 		"@tsconfig/esm": "1.0.2",
 		"@tsconfig/node18": "1.0.1",
