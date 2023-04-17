@@ -9,7 +9,7 @@ npm install -g globgpt
 1. [Index](https://docs.langchain.com/docs/use-cases/qa-docs#ingestion) some files
 
 ```bash
-# single files
+# single file
 globgpt retrieve --name my-first-llm my-file.txt
 
 # all files in the current directory
