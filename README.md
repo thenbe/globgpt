@@ -1,5 +1,9 @@
 A simple way to chat with an LLM over some files. Built on langchain.
 
+```bash
+npm install -g globgpt
+```
+
 # Usage
 
 1. [Index](https://docs.langchain.com/docs/use-cases/qa-docs#ingestion) some files
