@@ -23,6 +23,6 @@
   },
 	"author": "",
 	"license": "MIT",
-	"keywords": [],
+	"keywords": [ "ai", "llm", "chat", "bot", "chatbot", "gpt4" ],
 	"private": true
 }
