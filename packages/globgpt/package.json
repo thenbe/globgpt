@@ -1,6 +1,6 @@
 {
 	"name": "globgpt",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"bin": {
 		"globgpt": "dist/cli.cjs"
 	},
@@ -28,10 +28,10 @@
 		"openai": "^3.2.0"
 	},
 	"description": "Chat with an LLM over some files",
-  "homepage": "https://github.com/thenbe/globgpt",
-  "bugs": {
-    "url": "https://github.com/thenbe/globgpt/issues"
-  },
+	"homepage": "https://github.com/thenbe/globgpt",
+	"bugs": {
+		"url": "https://github.com/thenbe/globgpt/issues"
+	},
 	"author": "",
 	"license": "MIT",
 	"keywords": [],
