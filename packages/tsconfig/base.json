@@ -7,6 +7,9 @@
 		"@tsconfig/esm/tsconfig" // order matters
 	],
 	"compilerOptions": {
-		"noPropertyAccessFromIndexSignature": false
+		"noPropertyAccessFromIndexSignature": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"allowUnusedLabels": true
 	}
 }
