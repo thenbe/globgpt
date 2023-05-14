@@ -41,7 +41,7 @@ cli
   })
   .option('--name <name>', 'The name of the vector store to use.')
   .option('--model <model>', 'The model to use.', {
-    default: 'gpt-3.5-turbo',
+    default: 'gpt-4',
   })
   .action(async (text, options) => {
     const res = await chat({
