@@ -9,20 +9,27 @@
 		"lint": "pnpm -r --parallel --aggregate-output run lint",
 		"lint:watch": "task lint --watch --interval=3000ms --force",
 		"test": "vitest",
-    "release": "pnpm run build && changeset publish"
+		"release": "pnpm run build && changeset publish"
 	},
 	"devDependencies": {
 		"@changesets/cli": "2.26.1",
 		"@go-task/cli": "3.24.0",
-		"vitest": "0.30.1"
+		"vitest": "0.31.1"
 	},
 	"description": "monorepo for globgpt",
-  "homepage": "https://github.com/thenbe/globgpt",
-  "bugs": {
-    "url": "https://github.com/thenbe/globgpt/issues"
-  },
+	"homepage": "https://github.com/thenbe/globgpt",
+	"bugs": {
+		"url": "https://github.com/thenbe/globgpt/issues"
+	},
 	"author": "",
 	"license": "MIT",
-	"keywords": [ "ai", "llm", "chat", "bot", "chatbot", "gpt4" ],
+	"keywords": [
+		"ai",
+		"llm",
+		"chat",
+		"bot",
+		"chatbot",
+		"gpt4"
+	],
 	"private": true
 }
