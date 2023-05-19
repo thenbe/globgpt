@@ -5,6 +5,7 @@ import { cac } from 'cac'
 import { CLI_NAME, STORE_DIRECTORY_DEFAULT } from './config'
 import { chat } from './chat'
 import { retrieve } from './retrieve'
+import { DEFAULT_MODEL_NAME } from './model'
 
 const RETRIEVE_EXAMPLE_1 = 'globgpt retrieve --name my-first-llm hello.txt'
 const RETRIEVE_EXAMPLE_2 = 'fd . | xargs globgpt retrieve --name my-first-llm'
@@ -41,7 +42,7 @@ cli
   })
   .option('--name <name>', 'The name of the vector store to use.')
   .option('--model <model>', 'The model to use.', {
-    default: 'gpt-3.5-turbo',
+    default: DEFAULT_MODEL_NAME,
   })
   .action(async (text, options) => {
     const res = await chat({
