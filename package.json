@@ -3,12 +3,14 @@
 	"version": "0.0.0",
 	"scripts": {
 		"build": "pnpm -r build",
-		"build:watch": "task build --watch --interval=3000ms --force",
+		"dev": "task build --watch --interval=3000ms --force",
 		"check": "pnpm -r --parallel --aggregate-output run check",
 		"check:watch": "task check --watch --interval=3000ms --force",
 		"lint": "pnpm -r --parallel --aggregate-output run lint",
 		"lint:watch": "task lint --watch --interval=3000ms --force",
-		"test": "vitest",
+		"test": "vitest --run",
+		"test:watch": "vitest",
+		"ks": "pnpm check; pnpm lint; pnpm test; pnpm build",
 		"release": "pnpm run build && changeset publish"
 	},
 	"devDependencies": {
