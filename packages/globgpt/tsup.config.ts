@@ -5,5 +5,5 @@ export const tsup: Options = {
   shims: true, // fixes import.meta.url in output
   // minify: true,
   // splitting: true,
-  dts: true,
+  // dts: true, // also enables type check
 }
