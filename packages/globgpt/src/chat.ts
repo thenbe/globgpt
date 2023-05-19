@@ -1,12 +1,13 @@
 import { initializeAgentExecutorWithOptions } from 'langchain/agents'
-import { ConversationalRetrievalQAChain, VectorDBQAChain } from 'langchain/chains'
+import { ConversationalRetrievalQAChain } from 'langchain/chains'
 import type { ChainValues } from 'langchain/dist/schema'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
-import { ChainTool, SerpAPI } from 'langchain/tools'
+import { SerpAPI } from 'langchain/tools'
 import { Calculator } from 'langchain/tools/calculator'
 import { WebBrowser } from 'langchain/tools/webbrowser'
 import { getModel } from './model'
 import { type RetrieveByNameArgs, retrieveByName } from './retrieve'
+import { getQaTool } from './tools/qa'
 
 // https://js.langchain.com/docs/modules/chains/index_related_chains/conversational_retrieval
 
@@ -40,27 +41,10 @@ async function chatWithLLM(args: ChatArgs): Promise<ChainValues> {
 }
 
 async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
-  process.env.LANGCHAIN_HANDLER = 'langchain'
+  process.env.LANGCHAIN_HANDLER = 'langchain' // WARN: explore
   const { modelName, text } = args
 
   const model = getModel({ modelName })
-
-  // Provide the vector store as a tool. https://js.langchain.com/docs/modules/agents/tools/agents_with_vectorstores
-  const vectorStore = await retrieveByName(args)
-  const chain = VectorDBQAChain.fromLLM(model, vectorStore,
-    {
-      returnSourceDocuments: true,
-      k: 1,
-      // key: 'question',
-      // inputKey: 'question',
-    },
-  )
-  const qaTool = new ChainTool({
-    name: 'my-dotfiles',
-    description: 'Dotfiles QA - Use my dotfiles to tailor your examples and suggestions to my active configuration.',
-    chain,
-    // returnDirect: true, // TODO: explore
-  })
 
   const embeddings = new OpenAIEmbeddings() // TODO: explore
   const tools = [
@@ -71,7 +55,7 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
     }),
     new Calculator(),
     new WebBrowser({ model, embeddings }),
-    qaTool,
+    await getQaTool({ args, model }), // BUG: https://github.com/hwchase17/langchainjs/issues/593
   ]
 
   const executor = await initializeAgentExecutorWithOptions(tools, model, {
