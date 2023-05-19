@@ -72,7 +72,7 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
   ]
 
   const executor = await initializeAgentExecutorWithOptions(tools, model, {
-    agentType: 'zero-shot-react-description', // TODO: explore different agent types. https://js.langchain.com/docs/modules/agents/agents/#which-agent-to-choose
+    agentType: 'chat-zero-shot-react-description', // TODO: explore different agent types. https://js.langchain.com/docs/modules/agents/agents/#which-agent-to-choose
     returnIntermediateSteps: true,
     // agentArgs: {
     //   systemMessage: 'You are a helpful assistant', // WARN: not ideal
