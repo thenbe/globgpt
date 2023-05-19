@@ -1,11 +1,12 @@
-import { ConversationalRetrievalQAChain } from 'langchain/chains'
-import { Calculator } from 'langchain/tools/calculator'
 import { initializeAgentExecutorWithOptions } from 'langchain/agents'
-import { SerpAPI } from 'langchain/tools'
+import { ConversationalRetrievalQAChain } from 'langchain/chains'
 import type { ChainValues } from 'langchain/dist/schema'
-import { type RetrieveByNameArgs, retrieveByName } from './retrieve'
-import { prompt } from './prompts'
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
+import { SerpAPI } from 'langchain/tools'
+import { Calculator } from 'langchain/tools/calculator'
+import { WebBrowser } from 'langchain/tools/webbrowser'
 import { getModel } from './model'
+import { type RetrieveByNameArgs, retrieveByName } from './retrieve'
 
 // https://js.langchain.com/docs/modules/chains/index_related_chains/conversational_retrieval
 
@@ -43,7 +44,7 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
   const { modelName, text } = args
 
   const model = getModel({ modelName })
-
+  const embeddings = new OpenAIEmbeddings()
   const tools = [
     new SerpAPI(process.env.SERPAPI_API_KEY, {
       location: 'Austin,Texas,United States',
@@ -51,13 +52,14 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
       gl: 'us',
     }),
     new Calculator(),
+    new WebBrowser({ model, embeddings }),
   ]
 
   const executor = await initializeAgentExecutorWithOptions(tools, model, {
     verbose: true,
     agentType: 'chat-conversational-react-description', // TODO: different agent types
     agentArgs: {
-      systemMessage: prompt, // WARN: not ideal
+      systemMessage: 'You are a helpful assistant', // WARN: not ideal
     },
   })
 
