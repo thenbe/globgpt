@@ -1,8 +1,8 @@
 import { initializeAgentExecutorWithOptions } from 'langchain/agents'
-import { ConversationalRetrievalQAChain } from 'langchain/chains'
+import { ConversationalRetrievalQAChain, VectorDBQAChain } from 'langchain/chains'
 import type { ChainValues } from 'langchain/dist/schema'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
-import { SerpAPI } from 'langchain/tools'
+import { ChainTool, SerpAPI } from 'langchain/tools'
 import { Calculator } from 'langchain/tools/calculator'
 import { WebBrowser } from 'langchain/tools/webbrowser'
 import { getModel } from './model'
@@ -44,7 +44,24 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
   const { modelName, text } = args
 
   const model = getModel({ modelName })
-  const embeddings = new OpenAIEmbeddings()
+
+  // Provide the vector store as a tool. https://js.langchain.com/docs/modules/agents/tools/agents_with_vectorstores
+  const vectorStore = await retrieveByName(args)
+  const chain = VectorDBQAChain.fromLLM(model, vectorStore, {
+    verbose: true,
+    // returnSourceDocuments: true,
+    // key: 'question',
+    // inputKey: 'question',
+  })
+  const qaTool = new ChainTool({
+    verbose: true,
+    name: 'my dotfiles',
+    description: 'Dotfiles QA - useful for when you need info about my dotfiles.',
+    chain,
+    // returnDirect: true, // TODO: explore
+  })
+
+  const embeddings = new OpenAIEmbeddings() // TODO: explore
   const tools = [
     new SerpAPI(process.env.SERPAPI_API_KEY, {
       location: 'Austin,Texas,United States',
@@ -53,11 +70,12 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
     }),
     new Calculator(),
     new WebBrowser({ model, embeddings }),
+    qaTool,
   ]
 
   const executor = await initializeAgentExecutorWithOptions(tools, model, {
     verbose: true,
-    agentType: 'chat-conversational-react-description', // TODO: different agent types
+    agentType: 'chat-conversational-react-description', // TODO: explore different agent types
     agentArgs: {
       systemMessage: 'You are a helpful assistant', // WARN: not ideal
     },
