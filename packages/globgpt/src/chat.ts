@@ -54,7 +54,7 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
   })
   const qaTool = new ChainTool({
     name: 'my dotfiles',
-    description: 'Dotfiles QA - useful for when you need info about my dotfiles.',
+    description: 'Dotfiles QA - Use my dotfiles to tailor your examples and suggestions to my active configuration.',
     chain,
     // returnDirect: true, // TODO: explore
   })
@@ -72,10 +72,11 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
   ]
 
   const executor = await initializeAgentExecutorWithOptions(tools, model, {
-    agentType: 'chat-conversational-react-description', // TODO: explore different agent types
-    agentArgs: {
-      systemMessage: 'You are a helpful assistant', // WARN: not ideal
-    },
+    agentType: 'zero-shot-react-description', // TODO: explore different agent types. https://js.langchain.com/docs/modules/agents/agents/#which-agent-to-choose
+    returnIntermediateSteps: true,
+    // agentArgs: {
+    //   systemMessage: 'You are a helpful assistant', // WARN: not ideal
+    // },
   })
 
   const input0 = text
