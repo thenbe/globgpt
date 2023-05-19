@@ -67,27 +67,24 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
       systemMessage: prompt, // WARN: not ideal
     },
   })
-  console.log('Loaded agent.')
 
-  const input0 = 'hi, i am bob'
+  const input0 = text
 
   const result0 = await executor.call({ input: input0 })
 
   console.log(`Got output ${result0.output}`)
 
-  const input1 = 'whats my name?'
+  return result0
 
-  const result1 = await executor.call({ input: input1 })
+  // TODO: pass second input from user
 
-  console.log(`Got output ${result1.output}`)
-
-  const input2 = 'whats the weather in pomfret?'
-
-  const result2 = await executor.call({ input: input2 })
-
-  console.log(`Got output ${result2.output}`)
-
-  return result2
+  // const input1 = 'whats my name?'
+  // const result1 = await executor.call({ input: input1 })
+  // console.log(`Got output ${result1.output}`)
+  // const input2 = 'whats the weather in pomfret?'
+  // const result2 = await executor.call({ input: input2 })
+  // console.log(`Got output ${result2.output}`)
+  // return result2
 }
 
 export interface ChatArgs extends RetrieveByNameArgs {
