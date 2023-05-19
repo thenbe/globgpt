@@ -1,7 +1,7 @@
 import * as url from 'node:url'
 import path from 'node:path'
-import fs from 'node:fs'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import { HNSWLib } from 'langchain/vectorstores'
 import { retrieve } from '../src/retrieve'
 import { STORE_DIRECTORY_BASENAME } from '../src/config'
 
@@ -11,16 +11,16 @@ const SAMPLE_NAME = 'test'
 const SAMPLE_VECTOR = path.resolve(STORE_DIRECTORY, SAMPLE_NAME)
 const SAMPLE_FILE = path.resolve(__dirname, './sample/foo.txt')
 
-beforeEach(() => {
-  if (fs.existsSync(STORE_DIRECTORY)) {
-    console.log('Removing store directory', STORE_DIRECTORY)
-    fs.rmSync(STORE_DIRECTORY, { recursive: true })
-  }
+// Mock to avoid OPENAI_API_KEY error
+vi.mock('langchain/embeddings/openai', () => {
+  const OpenAIEmbeddings = vi.fn()
+  return { OpenAIEmbeddings }
 })
 
 describe('retrieval', () => {
   it('creates a vector store', async () => {
-    expect(fs.existsSync(SAMPLE_VECTOR)).toBe(false)
+    // @ts-expect-error test
+    const spy = vi.spyOn(HNSWLib, 'fromDocuments').mockResolvedValue({ save: vi.fn() })
 
     await retrieve({
       paths: [SAMPLE_FILE],
@@ -28,7 +28,28 @@ describe('retrieval', () => {
       name: SAMPLE_NAME,
     })
 
-    expect(fs.existsSync(SAMPLE_VECTOR)).toBe(true)
+    // TEST: path
+    expect(spy).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          pageContent: 'bar',
+        }),
+      ]),
+      expect.anything())
+  })
+
+  it('saves the vector store in the correct path', async () => {
+    const spy = vi.fn()
+    // @ts-expect-error test
+    vi.spyOn(HNSWLib, 'fromDocuments').mockResolvedValueOnce({ save: spy })
+
+    await retrieve({
+      paths: [SAMPLE_FILE],
+      storeDirectory: STORE_DIRECTORY,
+      name: SAMPLE_NAME,
+    })
+
+    expect(spy).toHaveBeenCalledWith(SAMPLE_VECTOR)
   })
 
   it.todo('handles multiple files', async () => {})

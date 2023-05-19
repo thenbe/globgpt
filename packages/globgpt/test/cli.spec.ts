@@ -37,7 +37,7 @@ describe('cli', () => {
     expect(result).toContain('-h, --help')
   })
 
-  it('creates a vector store', async () => {
+  it.skip('creates a vector store', async () => {
     const SAMPLE_VECTOR = path.resolve(STORE_DIRECTORY, SAMPLE_NAME)
     expect(fs.existsSync(SAMPLE_VECTOR)).toBe(false)
 

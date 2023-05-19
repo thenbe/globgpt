@@ -9,6 +9,9 @@ export default defineWorkspace([
       root: './packages/globgpt',
       environment: 'node',
       // setupFiles: ['./setup.node.ts'],
+			clearMocks: true,
+			mockReset: true,
+			restoreMocks: true,
     },
   },
 ])

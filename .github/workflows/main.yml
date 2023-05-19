@@ -21,4 +21,4 @@ jobs:
       - run: pnpm run check
       - run: pnpm run lint
       - run: pnpm run build
-        # - run: pnpm run test # TODO: enable after stubbing OPENAI_API_KEY
+      - run: pnpm run test
