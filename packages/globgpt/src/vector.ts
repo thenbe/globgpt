@@ -10,7 +10,7 @@ import { log } from './logger'
 export async function save(rawDocs: Document[], storePath: string) {
   /* Split text into chunks */
   const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
+    // chunkSize: 1000,
     // chunkOverlap: 200,
   })
 
