@@ -1,12 +1,11 @@
 import { initializeAgentExecutorWithOptions } from 'langchain/agents'
-import { ConversationalRetrievalQAChain } from 'langchain/chains'
 import type { ChainValues } from 'langchain/dist/schema'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { SerpAPI } from 'langchain/tools'
 import { Calculator } from 'langchain/tools/calculator'
 import { WebBrowser } from 'langchain/tools/webbrowser'
 import { getModel } from './model'
-import { type RetrieveByNameArgs, retrieveByName } from './retrieve'
+import { type RetrieveByNameArgs } from './retrieve'
 import { getQaTool } from './tools/qa'
 
 // https://js.langchain.com/docs/modules/chains/index_related_chains/conversational_retrieval
@@ -15,29 +14,6 @@ import { getQaTool } from './tools/qa'
 export async function chat(args: ChatArgs): Promise<ChainValues> {
   // return await chatWithLLM(args)
   return await chatWithAgent(args)
-}
-
-async function chatWithLLM(args: ChatArgs): Promise<ChainValues> {
-  const { modelName, text } = args
-
-  // Retrieve the vector store
-  const vector = await retrieveByName(args)
-
-  // Initialize the LLM to use to answer the question
-  const model = getModel({ modelName })
-
-  // Create the chain
-  const chain = ConversationalRetrievalQAChain.fromLLM(
-    model,
-    vector.asRetriever(),
-  )
-
-  const chatHistory = [] as const
-
-  // Ask it a question
-  const res = await chain.call({ question: text, chat_history: chatHistory })
-
-  return res
 }
 
 async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
