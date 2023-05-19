@@ -48,13 +48,11 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
   // Provide the vector store as a tool. https://js.langchain.com/docs/modules/agents/tools/agents_with_vectorstores
   const vectorStore = await retrieveByName(args)
   const chain = VectorDBQAChain.fromLLM(model, vectorStore, {
-    verbose: true,
     // returnSourceDocuments: true,
     // key: 'question',
     // inputKey: 'question',
   })
   const qaTool = new ChainTool({
-    verbose: true,
     name: 'my dotfiles',
     description: 'Dotfiles QA - useful for when you need info about my dotfiles.',
     chain,
@@ -74,7 +72,6 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
   ]
 
   const executor = await initializeAgentExecutorWithOptions(tools, model, {
-    verbose: true,
     agentType: 'chat-conversational-react-description', // TODO: explore different agent types
     agentArgs: {
       systemMessage: 'You are a helpful assistant', // WARN: not ideal

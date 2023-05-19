@@ -13,6 +13,11 @@ export function setLogLevel() {
     LOG_LEVEL = DEFAULT_LOG_LEVEL
 }
 
+export function getLogLevel() {
+  LOG_LEVEL || setLogLevel()
+  return LOG_LEVEL
+}
+
 export function log(level: LogLevel = 'INFO', data: unknown) {
   LOG_LEVEL || setLogLevel()
 
