@@ -31,8 +31,10 @@ async function chatWithAgent(args: ChatArgs): Promise<ChainValues> {
     }),
     new Calculator(),
     new WebBrowser({ model, embeddings }),
-    await getQaTool({ args, model }), // BUG: https://github.com/hwchase17/langchainjs/issues/593
   ]
+
+  if (args.name)
+    tools.push(await getQaTool({ args, model })) // BUG: https://github.com/hwchase17/langchainjs/issues/593
 
   const executor = await initializeAgentExecutorWithOptions(tools, model, {
     agentType: 'chat-zero-shot-react-description', // TODO: explore different agent types. https://js.langchain.com/docs/modules/agents/agents/#which-agent-to-choose
