@@ -1,5 +1,11 @@
 # globgpt
 
+## 0.0.3
+
+### Patch Changes
+
+- 8c1d6e1: chore: update deps
+
 ## 0.0.2
 
 ### Patch Changes
